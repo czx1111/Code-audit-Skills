@@ -1,166 +1,255 @@
-# Code Audit MCP
-
-<div align="center">
-
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Languages](https://img.shields.io/badge/languages-Python%20%7C%20JS%20%7C%20Go%20%7C%20Java%20%7C%20PHP%20%7C%20Rust-orange.svg)
-
-**AI 原生代码安全审计工具**
-
-[English](#english) | [中文](#中文)
-
-</div>
-
 ---
+name: code-audit-skills
+description: AI原生代码安全审计工具，支持多语言AST分析、调用图分析、漏洞检测、AI深度审计。使用此Skill进行代码安全审计、漏洞扫描、架构分析和代码质量评估。支持Python/JavaScript/TypeScript/Go/Java/PHP/Rust等多种语言。
+license: MIT
+---
+# Code Audit Skills - AI原生代码安全审计
 
-## 中文
+## 概述
 
-### 概述
+Code Audit Skills 是一个强大的代码安全审计工具，提供：
 
-Code Audit MCP 是一个强大的 AI 原生代码安全审计工具，基于 Model Context Protocol (MCP) 构建。它结合了传统静态分析技术与大语言模型 (LLM) 的深度语义理解能力，能够高效检测代码中的安全漏洞和潜在风险。
+- **多语言AST解析**：支持 Python、JavaScript/TypeScript、Go、Java、PHP、Rust 等
+- **调用图分析**：构建函数调用关系图，追踪数据流
+- **漏洞检测引擎**：内置 OWASP Top 10、CWE 等安全规则
+- **AI深度审计**：利用 LLM 进行语义级安全分析
+- **报告生成**：生成专业的安全审计报告
 
-### ✨ 核心特性
+## 触发条件
 
-- **多语言 AST 解析**: 支持 Python、JavaScript/TypeScript、Go、Java、PHP、Rust 等主流编程语言
-- **调用图分析**: 构建函数调用关系图，追踪数据流和敏感信息传播路径
-- **智能漏洞检测**: 内置 OWASP Top 10 和 CWE 安全规则库
-- **AI 深度审计**: 利用 LLM 进行语义级安全分析，发现业务逻辑漏洞
-- **专业报告生成**: 支持 Markdown、JSON、SARIF 等多种输出格式
+- 用户请求代码安全审计、漏洞扫描
+- 需要分析代码中的安全风险
+- 进行代码质量评估
+- 分析函数调用关系和数据流
+- 检测特定类型的安全漏洞（SQL注入、XSS、命令注入等）
 
-### 🚀 快速开始
+## 必要输入
 
-#### 安装
-
-```bash
-# 克隆仓库
-git clone https://github.com/czx1111/Code-audit-Skills.git
-
-# 进入目录
-cd Code-audit-Skills
+```text
+Target Path: /path/to/code
+Language: auto | python | javascript | go | java | php | rust
+Audit Mode: quick | standard | deep
+Scan Scope: all | security | quality | architecture
+Output Format: markdown | json | html
 ```
 
-#### 基本使用
+最少必填字段：
 
-```python
-# 快速扫描
-audit_quick_scan(targetPath="/path/to/code")
+- `Target Path`：要审计的代码路径
 
-# 完整审计
-audit_scan(
-    targetPath="/path/to/code",
-    language="auto",           # 自动检测语言
-    mode="standard",           # quick | standard | deep
-    scope="security",          # all | security | quality | architecture
-    outputFormat="markdown"    # markdown | json | sarif
-)
+可选字段：
 
-# 分析单个文件
-audit_analyze_file(filePath="/path/to/file.py")
+- `Language`：指定语言，默认自动检测
+- `Audit Mode`：审计模式，默认 standard
+- `Scan Scope`：扫描范围，默认 security
+- `Output Format`：输出格式，默认 markdown
 
-# 构建调用图
-build_call_graph(targetPath="/path/to/code", language="python")
-
-# 数据流分析
-analyze_data_flow(targetPath="/path/to/code", language="python")
-```
-
-### 📊 支持的漏洞类型
-
-| 类别 | 漏洞类型 | CWE 编号 |
-|------|----------|----------|
-| 注入类 | SQL注入、命令注入、XSS、LDAP注入 | CWE-89, CWE-78, CWE-79 |
-| 认证授权 | 身份认证绕过、权限提升、会话管理 | CWE-287, CWE-269, CWE-384 |
-| 数据安全 | 敏感数据泄露、硬编码密码、弱加密 | CWE-200, CWE-798, CWE-327 |
-| 其他 | SSRF、XXE、路径遍历、反序列化 | CWE-918, CWE-611, CWE-22, CWE-502 |
-
-### 🔧 审计模式
-
-| 模式 | 描述 | 适用场景 |
-|------|------|----------|
-| `quick` | 快速扫描高危漏洞 | CI/CD 流水线 |
-| `standard` | 标准安全审计 | 常规代码审查 |
-| `deep` | 深度分析包含 AI 审计 | 重要项目安全评估 |
-
-### 📁 项目结构
+## 目录结构
 
 ```
-code-audit-mcp/
-├── SKILL.md                    # 主控配置文件
+code-audit-skills/
+├── SKILL.md                    # 主控文件
 ├── agents/
 │   └── default.yaml            # Agent 配置
 ├── scripts/
-│   └── run_audit.py            # 命令行启动脚本
+│   ├── run_audit.py            # 审计启动脚本
+│   ├── generate_report.py      # 报告生成脚本
+│   └── validate_results.py     # 结果验证脚本
 ├── references/
 │   ├── vulnerability-db.md     # 漏洞数据库参考
 │   ├── call-graph-guide.md     # 调用图分析指南
-│   └── ai-audit-workflow.md    # AI 审计工作流
-└── rules/                      # 安全规则目录
+│   ├── ai-audit-workflow.md    # AI审计工作流
+│   └── rules-syntax.md         # 规则语法参考
+└── rules/
+    ├── owasp-top10/            # OWASP Top 10 规则
+    ├── cwe/                    # CWE 规则
+    ├── lang-specific/          # 语言特定规则
+    └── custom/                 # 自定义规则
 ```
 
-### 📖 文档
+## 阶段流程
 
-- [漏洞数据库参考](references/vulnerability-db.md)
-- [调用图分析指南](references/call-graph-guide.md)
-- [AI 审计工作流](references/ai-audit-workflow.md)
+### Phase 1: 项目分析与语言检测
 
-### 🤝 贡献
+- 扫描目标路径，识别项目结构
+- 自动检测编程语言和框架
+- 分析依赖关系和配置文件
 
-欢迎提交 Issue 和 Pull Request！
+### Phase 2: AST解析与代码建模
 
-### 📄 许可证
+- 解析源代码生成 AST
+- 提取函数、类、变量定义
+- 识别导入和依赖关系
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+### Phase 3: 调用图构建
 
----
+- 构建函数调用关系图
+- 分析数据流和控制流
+- 识别敏感数据传播路径
 
-## English
+### Phase 4: 规则引擎扫描
 
-### Overview
+- 应用 OWASP Top 10 规则
+- 应用 CWE 漏洞规则
+- 应用语言特定安全规则
 
-Code Audit MCP is a powerful AI-native code security audit tool built on the Model Context Protocol (MCP). It combines traditional static analysis techniques with Large Language Model (LLM) deep semantic understanding to efficiently detect security vulnerabilities and potential risks in code.
+### Phase 5: AI深度审计（可选）
 
-### ✨ Key Features
+- 语义级安全分析
+- 业务逻辑漏洞检测
+- 认证授权问题分析
+- 复杂漏洞链识别
 
-- **Multi-language AST Parsing**: Support for Python, JavaScript/TypeScript, Go, Java, PHP, Rust, and more
-- **Call Graph Analysis**: Build function call relationship graphs, track data flow and sensitive information propagation
-- **Intelligent Vulnerability Detection**: Built-in OWASP Top 10 and CWE security rule libraries
-- **AI Deep Audit**: Leverage LLM for semantic-level security analysis to discover business logic vulnerabilities
-- **Professional Report Generation**: Support Markdown, JSON, SARIF, and other output formats
+### Phase 6: 结果整合与报告生成
 
-### 🚀 Quick Start
+- 汇总所有发现的漏洞
+- 按严重程度分类排序
+- 生成修复建议
+- 输出审计报告
+
+## 可用的 Skill 工具
+
+### 核心审计工具
+
+| 工具名称                   | 功能描述                 |
+| -------------------------- | ------------------------ |
+| `audit_scan`             | 执行完整代码审计扫描     |
+| `audit_quick_scan`       | 快速扫描，仅检测高危漏洞 |
+| `audit_analyze_file`     | 分析单个文件             |
+| `audit_analyze_function` | 分析特定函数             |
+
+### 分析工具
+
+| 工具名称                   | 功能描述     |
+| -------------------------- | ------------ |
+| `build_call_graph`       | 构建调用图   |
+| `analyze_data_flow`      | 数据流分析   |
+| `detect_vulnerabilities` | 漏洞检测     |
+| `check_dependencies`     | 依赖安全检查 |
+
+### AI审计工具
+
+| 工具名称                | 功能描述         |
+| ----------------------- | ---------------- |
+| `ai_deep_audit`       | AI深度语义分析   |
+| `ai_analyze_auth`     | 认证授权分析     |
+| `ai_detect_biz_logic` | 业务逻辑漏洞检测 |
+| `ai_suggest_fix`      | AI修复建议       |
+
+### 报告工具
+
+| 工具名称            | 功能描述      |
+| ------------------- | ------------- |
+| `generate_report` | 生成审计报告  |
+| `export_sarif`    | 导出SARIF格式 |
+| `export_json`     | 导出JSON格式  |
+
+## 漏洞严重级别
+
+| 级别               | 描述                   | 示例                     |
+| ------------------ | ---------------------- | ------------------------ |
+| **Critical** | 可直接被利用的高危漏洞 | SQL注入、RCE、认证绕过   |
+| **High**     | 有较高利用价值的漏洞   | XSS、SSRF、信息泄露      |
+| **Medium**   | 需要特定条件的漏洞     | 弱密码策略、不安全的配置 |
+| **Low**      | 潜在风险点             | 缺少日志、代码异味       |
+| **Info**     | 信息提示               | 最佳实践建议             |
+
+## 支持的漏洞类型
+
+### 注入类
+
+- SQL注入 (CWE-89)
+- 命令注入 (CWE-78)
+- LDAP注入 (CWE-90)
+- XPath注入 (CWE-91)
+- NoSQL注入
+
+### 认证授权
+
+- 身份认证绕过 (CWE-287)
+- 权限提升 (CWE-269)
+- 会话管理问题 (CWE-384)
+- 不安全的直接对象引用 (CWE-639)
+
+### 数据安全
+
+- 敏感数据泄露 (CWE-200)
+- 硬编码密码 (CWE-798)
+- 不安全的加密 (CWE-327)
+- 日志注入 (CWE-117)
+
+### 其他
+
+- XSS (CWE-79)
+- SSRF (CWE-918)
+- XXE (CWE-611)
+- 路径遍历 (CWE-22)
+- 不安全的反序列化 (CWE-502)
+
+## 输出要求
+
+### Markdown报告格式
+
+```markdown
+# 代码安全审计报告
+
+## 概要
+- 扫描路径: /path/to/code
+- 扫描时间: 2024-01-01 10:00:00
+- 扫描模式: standard
+- 总文件数: 100
+- 发现问题: 25
+
+## 统计
+| 严重级别 | 数量 |
+|---------|------|
+| Critical | 2 |
+| High | 5 |
+| Medium | 10 |
+| Low | 8 |
+
+## 详细问题
+
+### [Critical] SQL注入 - main.py:45
+**描述**: 用户输入未经过滤直接拼接到SQL查询中
+**代码位置**: `main.py:45`
+**代码片段**:
+```python
+query = f"SELECT * FROM users WHERE id = {user_input}"
+```
+
+**修复建议**: 使用参数化查询
 
 ```python
-# Quick scan
-audit_quick_scan(targetPath="/path/to/code")
-
-# Full audit
-audit_scan(
-    targetPath="/path/to/code",
-    language="auto",
-    mode="standard",
-    scope="security",
-    outputFormat="markdown"
-)
+query = "SELECT * FROM users WHERE id = ?"
+cursor.execute(query, (user_input,))
 ```
 
-### 📊 Supported Vulnerability Types
+**调用链**: process_request() -> get_user() -> execute_query()
+**CWE**: CWE-89
 
-- **Injection**: SQL Injection, Command Injection, XSS, LDAP Injection
-- **Authentication**: Auth Bypass, Privilege Escalation, Session Management
-- **Data Security**: Sensitive Data Exposure, Hardcoded Credentials, Weak Cryptography
-- **Others**: SSRF, XXE, Path Traversal, Insecure Deserialization
+```
 
-### 📄 License
+## 错误处理
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- 如果目标路径不存在，返回明确的错误信息
+- 如果无法识别语言，提示用户手动指定
+- 如果内存不足，建议使用 quick 模式
+- 如果 AI 服务不可用，降级为规则引擎扫描
 
----
+## 性能优化
 
-<div align="center">
+- 使用增量扫描，仅分析变更文件
+- 并行处理多个文件
+- 缓存 AST 解析结果
+- 按需加载规则集
 
-**⭐ If this project helps you, please give it a star! ⭐**
+## 验收要求
 
-Made with ❤️ by [czx1111](https://github.com/czx1111)
-
-</div>
+- [ ] AST 解析正确，能识别所有语法元素
+- [ ] 调用图完整，能追踪跨文件调用
+- [ ] 规则引擎能检测常见漏洞
+- [ ] AI 审计能发现语义级问题
+- [ ] 报告格式规范，信息完整
+- [ ] 性能满足要求（1000文件 < 5分钟）
+```
