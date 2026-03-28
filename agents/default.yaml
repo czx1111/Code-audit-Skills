@@ -1,0 +1,70 @@
+# Code Audit MCP - Agent Configuration
+
+name: code-audit-agent
+description: AI agent for code security audit
+
+# Model configuration
+model:
+  provider: openai
+  name: gpt-4-turbo-preview
+  temperature: 0.3
+  max_tokens: 4096
+
+# Tool preferences
+tools:
+  - audit_scan
+  - audit_quick_scan
+  - audit_analyze_file
+  - build_call_graph
+  - ai_deep_audit
+  - generate_report
+
+# Default parameters
+defaults:
+  language: auto
+  mode: standard
+  scope: security
+  output_format: markdown
+  max_files: 1000
+  enable_ai: false
+
+# Output configuration
+output:
+  format: markdown
+  include_code: true
+  include_fix_suggestions: true
+  max_results: 50
+
+# Security rules
+rules:
+  - id: SQL_INJECTION
+    severity: high
+    enabled: true
+  
+  - id: COMMAND_INJECTION
+    severity: critical
+    enabled: true
+  
+  - id: XSS
+    severity: high
+    enabled: true
+  
+  - id: SSRF
+    severity: high
+    enabled: true
+  
+  - id: PATH_TRAVERSAL
+    severity: high
+    enabled: true
+  
+  - id: HARDCODED_SECRET
+    severity: medium
+    enabled: true
+  
+  - id: WEAK_CRYPTO
+    severity: medium
+    enabled: true
+  
+  - id: DESERIALIZATION
+    severity: critical
+    enabled: true
