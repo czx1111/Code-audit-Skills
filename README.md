@@ -253,3 +253,7 @@ cursor.execute(query, (user_input,))
 - [ ] 报告格式规范，信息完整
 - [ ] 性能满足要求（1000文件 < 5分钟）
 ```
+欢迎大家关注微信公众，获取更多技术分享。
+![qrcode_for_gh_19fda9b4ef1b_258](https://github.com/user-attachments/assets/096303e8-cdc9-4218-9fd9-9cf154b3ea35)
+
+
